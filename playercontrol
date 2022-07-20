@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerControl : MonoBehaviour
+{
+    public bool isGrounded;
+    public double coins = 0;
+    public int k = 0;
+    public double coinspr = 0;
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Coin")
+        {
+            isGrounded = false;
+            Destroy(collision.gameObject);
+            coins++;
+        }
+        
+        isGrounded = true;
+    }
+
+    void Update()
+    { 
+        if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            isGrounded = false;
+            GetComponent<Rigidbody>().AddForce(new Vector3(0, 500, 0));
+        }
+        Debug.Log(coins);
+    }
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10, 100, 100), $"Score:  {coins.ToString()}");
+    }
+
+}
